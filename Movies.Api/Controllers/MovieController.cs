@@ -1,4 +1,6 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Movies.Api.Dtos;
 using Movies.Api.Services;
 using Movies.Domain;
@@ -10,15 +12,26 @@ namespace Movies.Api.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly MovieService _movieService;
+    private readonly IDistributedCache _cache;
 
-    public MovieController(MovieService movieService)
+    public MovieController(MovieService movieService, IDistributedCache cache)
     {
         _movieService = movieService;
+        _cache = cache;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<MovieResponseDto>>> GetAll()
     {
+        var cacheKey = "movies_all";
+        var cachedData = await _cache.GetStringAsync(cacheKey);
+
+        if (cachedData != null)
+        {
+            var cachedMovies = JsonSerializer.Deserialize<List<MovieResponseDto>>(cachedData);
+            return Ok(cachedMovies);
+        }
+        
         var movies = await _movieService.GetAllAsync();
         var result = movies.Select(m => new MovieResponseDto
         {
@@ -33,6 +46,12 @@ public class MovieController : ControllerBase
             CreatedAt = m.CreatedAt,
             UpdatedAt = m.UpdatedAt
         }).ToList();
+        
+        var jsonData = JsonSerializer.Serialize(result);
+        await _cache.SetStringAsync(cacheKey, jsonData, new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
+        });
 
         return Ok(result);
     }

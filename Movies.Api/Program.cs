@@ -12,6 +12,14 @@ BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
+// Redis Cache
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis") 
+                            ?? builder.Configuration["Redis:ConnectionString"];
+    options.InstanceName = "Movies_";
+});
+
 // Register MovieService
 builder.Services.AddScoped<MovieService>();
 
