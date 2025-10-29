@@ -21,6 +21,12 @@ public class MovieService
     public async Task<Movie?> GetByIdAsync(Guid id) =>
         await _movies.Find(x => x.Id == id).FirstOrDefaultAsync();
     
+    public async Task<List<Movie>> GetByTypeAsync(MediaType type)
+    {
+        var filter = Builders<Movie>.Filter.Eq(x => x.Type, type);
+        return await _movies.Find(filter).ToListAsync();
+    }
+    
     public async Task<List<Movie>> SearchByTitleAsync(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -40,6 +46,17 @@ public class MovieService
         movie.CreatedAt = DateTime.UtcNow;
         movie.UpdatedAt = DateTime.UtcNow;
         await _movies.InsertOneAsync(movie);
+    }
+    
+    public async Task CreateManyAsync(List<Movie> movies)
+    {
+        await _movies.InsertManyAsync(movies);
+    }
+
+    public async Task<List<Movie>> GetByGenresAsync(List<string> genres)
+    {
+        var filter = Builders<Movie>.Filter.AnyIn(x => x.Genres, genres);
+        return await _movies.Find(filter).ToListAsync();
     }
 
     public async Task UpdateAsync(Guid id, Movie movie)

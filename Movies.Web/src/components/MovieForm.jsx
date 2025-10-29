@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { GENRE_OPTIONS, MEDIA_TYPE_ENUM, MEDIA_TYPES } from '../config';
+import MultiSelect from './MultiSelect';
 
 const emptyForm = {
   title: '',
@@ -8,6 +10,9 @@ const emptyForm = {
   genres: [],
   posterUrl: '',
   watchUrl: '',
+  type: MEDIA_TYPES.Movie,
+  seasons: '',
+  episodes: '',
 };
 
 export default function MovieForm({ initialValues, onSubmit, submitting }) {
@@ -52,10 +57,30 @@ export default function MovieForm({ initialValues, onSubmit, submitting }) {
           <input type="date" className="input" value={form.realiseDate} onChange={(e) => update('realiseDate', e.target.value)} />
         </div>
         <div>
-          <label className="label">Genres (comma separated)</label>
-          <input className="input" value={form.genres.join(', ')} onChange={(e) => handleGenresChange(e.target.value)} />
+          <label className="label">Type</label>
+          <select className="input" value={form.type} onChange={(e) => update('type', e.target.value)}>
+            <option value={MEDIA_TYPES.Movie}>Movie</option>
+            <option value={MEDIA_TYPES.Series}>Series</option>
+          </select>
+        </div>
+        <div className="md:col-span-2">
+          <label className="label">Genres</label>
+          <MultiSelect options={GENRE_OPTIONS} value={form.genres} onChange={(vals) => update('genres', vals)} />
         </div>
       </div>
+
+      {form.type === MEDIA_TYPES.Series && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="label">Seasons</label>
+            <input type="number" min="0" className="input" value={form.seasons} onChange={(e) => update('seasons', e.target.value)} />
+          </div>
+          <div>
+            <label className="label">Episodes</label>
+            <input type="number" min="0" className="input" value={form.episodes} onChange={(e) => update('episodes', e.target.value)} />
+          </div>
+        </div>
+      )}
 
       <div>
         <label className="label">Poster URL</label>
@@ -95,6 +120,9 @@ function toForm(values) {
     genres: v.genres ?? v.Genres ?? [],
     posterUrl: v.posterUrl ?? v.PosterUrl ?? '',
     watchUrl: v.watchUrl ?? v.WatchUrl ?? '',
+    type: v.type ?? v.Type ?? MEDIA_TYPES.Movie,
+    seasons: v.seasons ?? v.Seasons ?? '',
+    episodes: v.episodes ?? v.Episodes ?? '',
   };
 }
 
@@ -108,6 +136,14 @@ function toDto(form) {
     Genres: form.genres,
     PosterUrl: form.posterUrl,
     WatchUrl: form.watchUrl,
+    Type: MEDIA_TYPE_ENUM[form.type] ?? form.type,
+    Seasons: form.type === MEDIA_TYPES.Series ? toIntOrNull(form.seasons) : null,
+    Episodes: form.type === MEDIA_TYPES.Series ? toIntOrNull(form.episodes) : null,
   };
+}
+
+function toIntOrNull(v) {
+  const n = parseInt(v, 10);
+  return Number.isNaN(n) ? null : n;
 }
 

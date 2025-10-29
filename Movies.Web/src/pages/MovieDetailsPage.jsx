@@ -47,6 +47,9 @@ export default function MovieDetailsPage() {
   const watchUrl = movie.watchUrl ?? movie.WatchUrl;
   const genres = movie.genres ?? movie.Genres ?? [];
   const realiseDate = movie.realiseDate ?? movie.RealiseDate;
+  const type = (movie.type ?? movie.Type) === 1 ? 'Series' : (movie.type ?? movie.Type) === 'Series' ? 'Series' : 'Movie';
+  const seasons = movie.seasons ?? movie.Seasons ?? null;
+  const episodes = movie.episodes ?? movie.Episodes ?? null;
   const realise = realiseDate ? new Date(realiseDate).toLocaleDateString() : '';
 
   return (
@@ -64,6 +67,14 @@ export default function MovieDetailsPage() {
         <div className="flex flex-wrap items-center gap-2 text-sm text-slate-400">
           <span className="inline-flex items-center gap-1 bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded">⭐ {rating ?? 'N/A'}</span>
           {realise && <span>Release: {realise}</span>}
+          {type && (
+            <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-300 px-2 py-0.5 rounded">{type}</span>
+          )}
+          {type === 'Series' && (seasons || episodes) && (
+            <span className="inline-flex items-center gap-1 bg-white/5 text-slate-300 px-2 py-0.5 rounded">
+              {seasons ? `${seasons} seasons` : ''}{seasons && episodes ? ' • ' : ''}{episodes ? `${episodes} ep.` : ''}
+            </span>
+          )}
           {genres.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {genres.map((g) => (

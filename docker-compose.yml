@@ -1,0 +1,93 @@
+version: "3.8"
+
+services:
+  # Frontend build (produces static files)
+  geovision-web:
+    build:
+      context: ./GeoVision.Web
+      dockerfile: Dockerfile
+    environment:
+      - VITE_API_BASE_URL=https://map.rts.one/api
+      - VITE_GEOSERVER_BASE_URL=https://geoserverapi.rts.one/geo-api/geoserver/
+    volumes:
+      - geovision-web-dist:/app/dist
+    command: ["npm", "run", "build"]
+    networks:
+      - geovision-network
+
+  # Nginx static file server
+  geovision-nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - geovision-web-dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf.template:ro
+    environment:
+      - API_BASE_URL=http://192.168.88.213:8080/api
+    entrypoint:
+      [
+        "/bin/sh",
+        "-c",
+        "apk add --no-cache gettext && envsubst '$$API_BASE_URL' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'",
+      ]
+    networks:
+      - geovision-network
+
+  # Backend API
+  geovision-api:
+    build:
+      context: .
+      dockerfile: GeoVision.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgis;Database=geovision_prod;Username=postgres;Password=123
+      - AppSettings__FrontendUrl=http://map.rts.one
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+      - EmailSettings__SmtpServer=mail.kubzle.com
+      - EmailSettings__Port=587
+      - EmailSettings__SenderName=GeoVision RTS
+      - EmailSettings__SenderEmail=map-noreplay@rts.one
+      - EmailSettings__Username=map-noreplay@rts.one
+      - EmailSettings__Password=y9\3:QK7]xG?
+      - Jwt__Key=ZSp~(Nno2lPE>YSSiFVAGZ[A%M!YAp7gd&zAr^rbl`{@<Hn`^!&`yFRHLdvUB}n
+      - Jwt__Issuer=RTS
+      - Jwt__Audience=rts.one
+      - Jwt__ExpireMinutes=60
+      - Cors__AllowedOrigins__0=https://map.rts.one
+      - Cors__AllowedOrigins__1=http://localhost
+      - Cors__AllowedOrigins__2=http://192.168.88.213
+      - AuthSettings__ServiceToken=ABTAMv0f3PcK7jDAoQUVtbRysGne8x5Z9ECLoMiqFwN14YRLzdWXv26kgITHJNBm
+      - AllowedHosts=*
+    depends_on:
+      - postgis
+    restart: unless-stopped
+    networks:
+      - geovision-network
+
+  # Database
+  postgis:
+    image: postgis/postgis:15-3.3-alpine
+    environment:
+      - POSTGRES_DB=geovision_prod
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - geovision-network
+
+volumes:
+  geovision-web-dist:
+  postgres_data:
+
+networks:
+  geovision-network:
+    driver: bridge

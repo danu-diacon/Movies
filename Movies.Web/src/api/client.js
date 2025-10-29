@@ -31,6 +31,20 @@ export async function searchMovies(title) {
   return data;
 }
 
+export async function getMoviesByType(type) {
+  // type should be enum name: 'Movie' or 'Series'
+  const { data } = await api.get(`/Movie/type/${encodeURIComponent(type)}`);
+  return data;
+}
+
+export async function getMoviesByGenres(genres) {
+  // genres can be array or comma-separated string
+  const list = Array.isArray(genres) ? genres : String(genres).split(',');
+  const joined = list.map((g) => String(g).trim()).filter(Boolean).join(',');
+  const { data } = await api.get('/Movie/genres', { params: { genres: joined } });
+  return data;
+}
+
 export async function createMovie(movie) {
   const { data } = await api.post('/Movie', movie);
   return data;

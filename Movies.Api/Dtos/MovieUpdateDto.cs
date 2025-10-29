@@ -1,3 +1,5 @@
+using Movies.Domain;
+
 namespace Movies.Api.Dtos;
 
 public class MovieUpdateDto
@@ -9,4 +11,8 @@ public class MovieUpdateDto
     public List<string> Genres { get; set; } = new();
     public string PosterUrl { get; set; } = string.Empty;
     public string WatchUrl { get; set; } = string.Empty;
+    
+    public MediaType Type { get; set; }
+    public int? Seasons { get; set; }
+    public int? Episodes { get; set; }
 }

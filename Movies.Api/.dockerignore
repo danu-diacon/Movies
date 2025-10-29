@@ -1,0 +1,17 @@
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.env
+*.log
+*.db
+*.sqlite
+*.pdb
+*.cache
+*.ncrunch*
+TestResults/
+.vscode/
+Dockerfile

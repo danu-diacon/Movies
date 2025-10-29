@@ -1,3 +1,5 @@
+using Movies.Domain;
+
 namespace Movies.Api.Dtos;
 
 public class MovieResponseDto
@@ -10,6 +12,9 @@ public class MovieResponseDto
     public List<string> Genres { get; set; } = new();
     public string PosterUrl { get; set; } = string.Empty;
     public string WatchUrl { get; set; } = string.Empty;
+    public MediaType Type { get; set; }
+    public int? Seasons { get; set; }
+    public int? Episodes { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

@@ -11,6 +11,11 @@ public class Movie
     
     public string PosterUrl { get; set; }
     public string WatchUrl { get; set; }
+    
+    public MediaType Type { get; set; } = MediaType.Movie;
+    
+    public int? Seasons { get; set; }
+    public int? Episodes { get; set; }
 
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
