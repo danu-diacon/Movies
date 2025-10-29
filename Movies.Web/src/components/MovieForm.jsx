@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { GENRE_OPTIONS, MEDIA_TYPE_ENUM, MEDIA_TYPES } from '../config';
 import MultiSelect from './MultiSelect';
+import Select from './Select';
 
 const emptyForm = {
   title: '',
@@ -58,10 +59,11 @@ export default function MovieForm({ initialValues, onSubmit, submitting }) {
         </div>
         <div>
           <label className="label">Type</label>
-          <select className="input" value={form.type} onChange={(e) => update('type', e.target.value)}>
-            <option value={MEDIA_TYPES.Movie}>Movie</option>
-            <option value={MEDIA_TYPES.Series}>Series</option>
-          </select>
+          <Select
+            value={form.type}
+            onChange={(v) => update('type', v)}
+            options={[{ value: MEDIA_TYPES.Movie, label: 'Movie' }, { value: MEDIA_TYPES.Series, label: 'Series' }]}
+          />
         </div>
         <div className="md:col-span-2">
           <label className="label">Genres</label>

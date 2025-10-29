@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { deleteMovie, getMovies, getMoviesByGenres, getMoviesByType, searchMovies } from '../api/client';
 import { MEDIA_TYPES } from '../config';
 import MultiSelect from '../components/MultiSelect';
+import Select from '../components/Select';
 import { GENRE_OPTIONS } from '../config';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
@@ -81,13 +82,17 @@ export default function MoviesPage() {
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div>
+        <div className="w-48">
           <label className="label">Type</label>
-          <select className="input" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-            <option value="All">All</option>
-            <option value={MEDIA_TYPES.Movie}>Movie</option>
-            <option value={MEDIA_TYPES.Series}>Series</option>
-          </select>
+          <Select
+            value={typeFilter}
+            onChange={setTypeFilter}
+            options={[
+              { value: 'All', label: 'All' },
+              { value: MEDIA_TYPES.Movie, label: 'Movie' },
+              { value: MEDIA_TYPES.Series, label: 'Series' },
+            ]}
+          />
         </div>
         <div className="flex-1">
           <label className="label">Genres</label>
