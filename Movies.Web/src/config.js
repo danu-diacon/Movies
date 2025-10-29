@@ -15,8 +15,36 @@ export const MEDIA_TYPE_ENUM = {
 };
 
 // Default genre options for selects; adjust as needed
+// Genres collected from sample data + a few common extras. Keep these
+// aligned with backend values (some backends use plural forms like "Dramas").
 export const GENRE_OPTIONS = [
-	'Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary',
-	'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery',
-	'Romance', 'Sci-Fi', 'Thriller', 'War', 'Western'
+	'Action',
+	'Adventures',
+	'Animation',
+	'Biographical',
+	'Cartoon series',
+	"Children's",
+	'Comedy',
+	'Crime',
+	'Detectives',
+	'Documentary',
+	'Dramas',
+	'Family',
+	'Fantasy',
+	'Fairy tales',
+	'Full-length',
+	'For adults',
+	'Foreign',
+	'Historical',
+	'Horror',
+	'Melodramas',
+	'Music',
+	'Mystery',
+	'Romantic',
+	'Short films',
+	'Sports',
+	'Sci-Fi',
+	'Thrillers',
+	'Western',
+	'Westerns'
 ];
