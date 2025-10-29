@@ -54,4 +54,10 @@ Movies/
  └── docker-compose.yml
 ```
 
----
+## 🐳 Running the Project with Docker
+
+Make sure you have **Docker** and **Docker Compose** installed on your machine.  
+Once you’ve cloned this repository, you can start all containers (API, MongoDB, Redis, etc.) using a single command:
+
+```bash
+docker compose up --build -d
