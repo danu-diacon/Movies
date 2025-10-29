@@ -59,3 +59,9 @@ export async function deleteMovie(id) {
   await api.delete(`/Movie/${id}`);
   return null;
 }
+
+export async function createMoviesBulk(list) {
+  const payload = Array.isArray(list) ? list : [list];
+  const { data } = await api.post('/Movie/bulk', payload);
+  return data;
+}

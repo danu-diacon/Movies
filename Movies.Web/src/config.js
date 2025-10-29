@@ -1,4 +1,5 @@
-export const API_BASE = 'http://localhost:5125/api';
+export const API_BASE =
+  import.meta.env.VITE_API_BASE || `${window.location.origin}/api`;
 
 export const MOVIE_ENDPOINT = `${API_BASE}/Movie`;
 

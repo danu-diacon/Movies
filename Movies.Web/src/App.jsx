@@ -4,6 +4,7 @@ import MoviesPage from './pages/MoviesPage';
 import MovieDetailsPage from './pages/MovieDetailsPage';
 import CreateMoviePage from './pages/CreateMoviePage';
 import EditMoviePage from './pages/EditMoviePage';
+import BulkImportPage from './pages/BulkImportPage';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/movies/new" element={<CreateMoviePage />} />
             <Route path="/movies/:id" element={<MovieDetailsPage />} />
             <Route path="/movies/:id/edit" element={<EditMoviePage />} />
+            <Route path="/bulk" element={<BulkImportPage />} />
           </Routes>
         </main>
       </div>

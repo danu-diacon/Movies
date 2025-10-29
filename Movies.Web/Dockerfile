@@ -1,20 +1,13 @@
-# Build Vite App
-FROM node:20-alpine AS build
-
-# Set working directory
+# ---- Etapa 1: Build Vite app ----
+FROM node:20 AS build
 WORKDIR /app
-
-# Copy package files
-COPY package.json ./
-COPY package-lock.json* ./
-
-# Install dependencies
-RUN npm ci --silent
-
-# Copy source code
+COPY package*.json ./
+RUN npm install
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Output will be in /app/dist
+# ---- Etapa 2: Serve static files cu Nginx ----
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
