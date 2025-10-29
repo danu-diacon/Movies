@@ -44,7 +44,7 @@ services:
     networks:
       - movies_network
 
-  # --- Mongo Setup (inițializează replica + creează admin) ---
+  # --- Mongo Setup ---
   mongo-setup:
     image: mongo:6
     container_name: mongo-setup
@@ -108,7 +108,7 @@ services:
         echo 'Replica Set și utilizatorul admin au fost configurate complet!';
       "
 
-  # --- Redis comun ---
+  # --- Redis ---
   redis:
     image: redis:7-alpine
     container_name: movies_redis
@@ -192,17 +192,18 @@ services:
     networks:
       - movies_network
 
-  # --- Frontend (React) ---
+  # --- Frontend (doar build, fără runtime) ---
   movies.web:
-    build: ./Movies.Web
-    container_name: movies-web
-    restart: unless-stopped
-    expose:
-      - "80"
-    networks:
-      - movies_network
+    build:
+      context: ./Movies.Web
+      dockerfile: Dockerfile
+      target: build
+    container_name: movies-web-builder
+    volumes:
+      - movies_web_dist:/app/dist
+    command: ["true"]
 
-  # --- Nginx pentru load-balancing și frontend ---
+  # --- Nginx - servește frontend + load balancing pentru API ---
   nginx:
     image: nginx:alpine
     container_name: movies-nginx
@@ -210,6 +211,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - movies_web_dist:/usr/share/nginx/html:ro
     depends_on:
       - movies.api1
       - movies.api2
@@ -223,3 +225,4 @@ volumes:
   mongo2_data:
   mongo3_data:
   redis_data:
+  movies_web_dist:
