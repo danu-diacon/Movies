@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { MEDIA_TYPE_ENUM } from '../config';
 import { createMoviesBulk } from '../api/client';
+import moviesData from '../assets/movies_parsed.json';
 
 export default function BulkImportPage() {
   const [text, setText] = useState('');
@@ -77,13 +78,38 @@ export default function BulkImportPage() {
     }
   }
 
+  async function handleImportFromFile() {
+    setLoading(true);
+    setError(null);
+    setMessage('');
+    try {
+      if (!moviesData || !Array.isArray(moviesData) || moviesData.length === 0) {
+        throw new Error('No movies found in the static file.');
+      }
+      const payload = moviesData.map(toDto);
+      const res = await createMoviesBulk(payload);
+      setMessage(res?.message || `Imported ${payload.length} movies from static file.`);
+      setItems([]);
+      setText('');
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <h1 className="text-2xl font-semibold mb-4">Bulk Import</h1>
 
       <div className="mb-4 text-sm text-slate-300">
         <p>Paste a JSON array of movies and click Validate. Then Import to send to the backend bulk endpoint.</p>
-        <button className="btn btn-sm mt-2" onClick={() => setText(sample)}>Insert sample</button>
+        <div className="flex items-center gap-2 mt-2">
+          <button className="btn btn-sm" onClick={() => setText(sample)}>Insert sample</button>
+          <button className="btn btn-sm" onClick={handleImportFromFile} disabled={loading}>
+            Import from static file ({moviesData?.length || 0} movies)
+          </button>
+        </div>
       </div>
 
       <textarea
