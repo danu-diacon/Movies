@@ -7,10 +7,10 @@ public class Movie
     public string Description { get; set; } = string.Empty;
     public double Rating { get; set; }
     public DateTime RealiseDate { get; set; }
-    public List<string> Genres { get; set; }
+    public List<string>? Genres { get; set; }
     
-    public string PosterUrl { get; set; }
-    public string WatchUrl { get; set; }
+    public string? PosterUrl { get; set; }
+    public string? WatchUrl { get; set; }
     
     public MediaType Type { get; set; } = MediaType.Movie;
     
