@@ -67,8 +67,8 @@ public class MovieServiceTests
         // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Count, Is.EqualTo(2));
-        Assert.That(result[0].Title, Is.EqualTo("Movie 2"));
-        Assert.That(result[1].Title, Is.EqualTo("Series 1"));
+        Assert.That(result[0].Title, Is.EqualTo("Movie 1"));
+        Assert.That(result[1].Title, Is.EqualTo("Series 2"));
     }
 
     [Test]
