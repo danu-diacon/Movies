@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Api", "Movies.Api\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Domain", "Movies.Domain\Movies.Domain.csproj", "{40031668-DB18-47F0-905E-6D85939AE654}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Tests", "Movies.Tests\Movies.Tests.csproj", "{0D8AC34C-B2C3-4D5F-B717-EE886C8E7996}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{40031668-DB18-47F0-905E-6D85939AE654}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40031668-DB18-47F0-905E-6D85939AE654}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40031668-DB18-47F0-905E-6D85939AE654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D8AC34C-B2C3-4D5F-B717-EE886C8E7996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D8AC34C-B2C3-4D5F-B717-EE886C8E7996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D8AC34C-B2C3-4D5F-B717-EE886C8E7996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D8AC34C-B2C3-4D5F-B717-EE886C8E7996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
