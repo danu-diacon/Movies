@@ -16,12 +16,12 @@ export default function Navbar() {
           <NavLink to="/" className={active} end>
             Home
           </NavLink>
-          {/* <NavLink to="/movies/new" className={active}>
+          <NavLink to="/movies/new" className={active}>
             Add Movie
           </NavLink>
           <NavLink to="/bulk" className={active}>
             Bulk Import
-          </NavLink> */}
+          </NavLink>
         </nav>
       </div>
     </header>

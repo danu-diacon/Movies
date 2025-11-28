@@ -1,0 +1,44 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"></stop>
+      <stop offset="100%" stop-color="#7c3aed"></stop>
+    </linearGradient>
+
+    <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe259"></stop>
+      <stop offset="100%" stop-color="#ff4e50"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="32" y="32" width="448" height="448" rx="90" fill="url(#bg)"></rect>
+
+  <!-- Filmstrip -->
+  <rect x="130" y="130" width="252" height="252" rx="20" fill="white"></rect>
+  <g fill="#7c3aed">
+    <!-- left holes -->
+    <rect x="150" y="150" width="30" height="30" rx="6"></rect>
+    <rect x="150" y="200" width="30" height="30" rx="6"></rect>
+    <rect x="150" y="250" width="30" height="30" rx="6"></rect>
+    <rect x="150" y="300" width="30" height="30" rx="6"></rect>
+    <rect x="150" y="350" width="30" height="30" rx="6"></rect>
+    <!-- right holes -->
+    <rect x="330" y="150" width="30" height="30" rx="6"></rect>
+    <rect x="330" y="200" width="30" height="30" rx="6"></rect>
+    <rect x="330" y="250" width="30" height="30" rx="6"></rect>
+    <rect x="330" y="300" width="30" height="30" rx="6"></rect>
+    <rect x="330" y="350" width="30" height="30" rx="6"></rect>
+  </g>
+
+  <!-- Lightning bolt -->
+  <path fill="url(#bolt)" d="
+    M260 120 
+    L200 260
+    H270 
+    L240 400 
+    L320 250
+    H250 
+    Z
+  "></path>
+</svg>
