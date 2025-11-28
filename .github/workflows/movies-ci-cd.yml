@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'   # sau 8.0.x dacă folosești .NET 8
+          dotnet-version: '9.0.x'
 
       - name: Restore .NET dependencies
         run: dotnet restore Movies.sln
@@ -46,3 +46,23 @@ jobs:
       - name: Build frontend
         working-directory: Movies.Web
         run: npm run build
+  
+  deploy:
+    needs: build_and_test
+    runs-on: self-hosted
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Deploy Movies platform
+        run: |
+          cd /home/dev/projects/Danu/Movies
+
+          echo ">>> Update source code"
+          git fetch origin master
+          git reset --hard origin/master
+
+          echo ">>> Rebuild and restart services"
+          docker compose up -d --build --force-recreate
+
+          echo ">>> Cleanup unused images"
+          docker image prune -f
