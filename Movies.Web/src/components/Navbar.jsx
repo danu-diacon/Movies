@@ -19,9 +19,9 @@ export default function Navbar() {
           <NavLink to="/movies/new" className={active}>
             Add Movie
           </NavLink>
-          <NavLink to="/bulk" className={active}>
+          {/* <NavLink to="/bulk" className={active}>
             Bulk Import
-          </NavLink>
+          </NavLink> */}
         </nav>
       </div>
     </header>
