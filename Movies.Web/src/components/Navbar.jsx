@@ -9,8 +9,9 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-10 backdrop-blur bg-black/30 text-white">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-        <Link to="/" className="text-xl font-semibold">
-          🎬 Movies
+        <Link to="/" className="text-xl font-semibold flex items-center gap-2">
+          <img src="/movies.svg" alt="Movies" className="w-8 h-8" />
+          Movies
         </Link>
         <nav className="flex items-center gap-1">
           <NavLink to="/" className={active} end>
