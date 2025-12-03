@@ -15,7 +15,7 @@ export default function Navbar() {
         </Link>
         <nav className="flex items-center gap-1">
           <NavLink to="/" className={active} end>
-            Home
+            Acasa
           </NavLink>
           <NavLink to="/movies/new" className={active}>
             Add Movie
